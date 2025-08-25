@@ -1,6 +1,5 @@
 const db = require('../config/db');
 
-// Fungsi bantuan untuk mendapatkan tanggal hari ini (YYYY-MM-DD)
 const getTodayDate = () => {
   const today = new Date();
   const year = today.getFullYear();
@@ -9,9 +8,6 @@ const getTodayDate = () => {
   return `${year}-${month}-${day}`;
 };
 
-// ======================================================================
-// FUNGSI BANTUAN BARU UNTUK FORMAT WAKTU (HH:MM:SS)
-// ======================================================================
 const getCurrentTime = () => {
   const now = new Date();
   const hours = String(now.getHours()).padStart(2, '0');
@@ -26,7 +22,7 @@ const getCurrentTime = () => {
 const clockIn = async (req, res) => {
   const pegawai_id = req.user.id;
   const tanggal = getTodayDate();
-  const jam_masuk = getCurrentTime(); // <-- DIGANTI
+  const jam_masuk = getCurrentTime();
 
   try {
     const [existing] = await db.query(
@@ -54,7 +50,7 @@ const clockIn = async (req, res) => {
 const clockOut = async (req, res) => {
   const pegawai_id = req.user.id;
   const tanggal = getTodayDate();
-  const jam_keluar = getCurrentTime(); // <-- DIGANTI
+  const jam_keluar = getCurrentTime();
 
   try {
     const [rows] = await db.query(
