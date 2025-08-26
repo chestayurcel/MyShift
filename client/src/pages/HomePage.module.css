@@ -1,0 +1,45 @@
+/* src/pages/HomePage.module.css */
+.container {
+    max-width: 500px;
+    margin: 100px auto;
+    padding: 40px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+    font-size: 2em;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+.nav {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Memberi jarak antar tombol */
+}
+
+.navLink {
+    display: block;
+    padding: 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: white;
+    font-size: 1.1em;
+    transition: transform 0.2s ease;
+}
+
+.navLink:hover {
+    transform: scale(1.03); /* Efek sedikit membesar saat disentuh mouse */
+}
+
+.loginButton {
+    background-color: #007bff; /* Biru */
+}
+
+.registerButton {
+    background-color: #28a745; /* Hijau */
+}

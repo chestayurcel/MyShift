@@ -27,6 +27,20 @@ const getAllPresensi = async (req, res) => {
   }
 };
 
+const getAllPegawai = async (req, res) => {
+  try {
+    // Ambil semua data pegawai kecuali password mereka
+    const [pegawai] = await db.query(
+      'SELECT id, nama_lengkap, email, role, created_at FROM pegawai'
+    );
+    res.status(200).json(pegawai);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Terjadi kesalahan pada server' });
+  }
+};
+
 module.exports = {
   getAllPresensi,
+  getAllPegawai, // <-- Tambahkan fungsi baru
 };

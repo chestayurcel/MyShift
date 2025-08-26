@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom'; // Tambahkan Link
 import authService from '../services/authService';
-import styles from './Auth.module.css';
+import styles from './Auth.module.css'; // <-- 1. Import CSS Module
 
 const RegisterPage = () => {
   const [nama_lengkap, setNamaLengkap] = useState('');
@@ -30,10 +30,10 @@ const RegisterPage = () => {
   };
 
   return (
-    <div>
+    <div className={styles.formContainer}> {/* <-- 2. Terapkan class */}
       <h1>Halaman Registrasi</h1>
       <form onSubmit={handleRegister}>
-        <div>
+        <div className={styles.formGroup}> {/* <-- Terapkan class */}
           <label htmlFor="nama_lengkap">Nama Lengkap</label>
           <input
             type="text"
@@ -43,7 +43,7 @@ const RegisterPage = () => {
             required
           />
         </div>
-        <div>
+        <div className={styles.formGroup}>
           <label htmlFor="email">Email</label>
           <input
             type="email"
@@ -53,7 +53,7 @@ const RegisterPage = () => {
             required
           />
         </div>
-        <div>
+        <div className={styles.formGroup}>
           <label htmlFor="password">Password</label>
           <input
             type="password"
@@ -64,14 +64,17 @@ const RegisterPage = () => {
           />
         </div>
         <div>
-          <button type="submit">Register</button>
+          <button type="submit" className={styles.button}>Register</button> {/* <-- Terapkan class */}
         </div>
       </form>
       {message && (
-        <div style={{ color: 'red', marginTop: '10px' }}>
+        <div className={styles.errorMessage}>
           {message}
         </div>
       )}
+      <p style={{ textAlign: 'center', marginTop: '15px' }}>
+        Sudah punya akun? <Link to="/login">Login di sini</Link>
+      </p>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import adminService from '../services/adminService';
-import styles from './Dashboard.module.css'; // <-- 1. IMPORT STYLE DI SINI
+import styles from './Dashboard.module.css';
 
 const AdminDashboardPage = () => {
   const [semuaRiwayat, setSemuaRiwayat] = useState([]);
@@ -29,12 +29,16 @@ const AdminDashboardPage = () => {
 
   return (
     <div>
-      {/* 2. TERAPKAN CLASSNAME DI BAWAH INI */}
       <div className={styles.dashboardHeader}>
         <h1>Admin Dashboard - Riwayat Semua Pegawai</h1>
         <button onClick={handleLogout} className={styles.logoutButton}>Logout</button>
       </div>
 
+    <div>
+        <RouterLink to="/admin/pegawai" className={styles.navButton}>
+    Lihat Daftar Pegawai
+  </RouterLink>
+    </div>
       <table className={styles.table}>
         <thead>
           <tr>

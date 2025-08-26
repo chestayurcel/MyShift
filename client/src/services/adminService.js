@@ -15,9 +15,12 @@ const getAuthHeader = () => {
 const getAllPresensi = () => {
   return axios.get(API_URL + 'presensi/semua', getAuthHeader());
 };
-
+const getAllPegawai = () => {
+  return axios.get(API_URL + 'pegawai', getAuthHeader());
+};
 const adminService = {
   getAllPresensi,
+  getAllPegawai,
 };
 
 export default adminService;
