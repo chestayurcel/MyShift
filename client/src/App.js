@@ -4,6 +4,8 @@ import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
+import AdminDashboardPage from './pages/AdminDashboardPage';
+import AdminRoute from './components/AdminRoute';
 
 function HomePage() {
   return (
@@ -29,11 +31,12 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/dashboard" element={
-            <ProtectedRoute>
-              <DashboardPage />
-            </ProtectedRoute>
-          } />
+          <Route path="/dashboard" 
+                element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+          <Route
+            path="/admin/dashboard"
+            element={<AdminRoute><AdminDashboardPage /></AdminRoute>}
+          />
         </Routes>
       </div>
     </Router>

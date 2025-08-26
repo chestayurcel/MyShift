@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import authService from '../services/authService';
+import styles from './Auth.module.css';
 
 const RegisterPage = () => {
   const [nama_lengkap, setNamaLengkap] = useState('');
