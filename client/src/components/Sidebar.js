@@ -1,7 +1,7 @@
-// client/src/components/Sidebar.js
 import React from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
-import './Sidebar.css'; // Kita akan buat file ini
+import { Nav, NavDropdown } from 'react-bootstrap'; // Import dari react-bootstrap
+import './Sidebar.css';
 import { jwtDecode } from 'jwt-decode';
 
 const Sidebar = ({ handleLogout }) => {
@@ -9,33 +9,49 @@ const Sidebar = ({ handleLogout }) => {
   const token = localStorage.getItem('userToken');
   const user = token ? jwtDecode(token) : null;
 
-  // Tentukan link mana yang aktif berdasarkan URL saat ini
-  const isActive = (path) => location.pathname === path;
+  const isActive = (path) => location.pathname.startsWith(path);
 
   return (
     <div className="sidebar">
       <h2 className="sidebar-brand">MyShift</h2>
-      <nav className="sidebar-nav">
+      <Nav className="flex-column sidebar-nav">
         {user && user.role === 'admin' ? (
           // Menu untuk Admin
           <>
-            <RouterLink to="/admin/dashboard" className={`nav-link ${isActive('/admin/dashboard') ? 'active' : ''}`}>
-              Dashboard Admin
-            </RouterLink>
-            <RouterLink to="/admin/pegawai" className={`nav-link ${isActive('/admin/pegawai') ? 'active' : ''}`}>
-              Daftar Pegawai
-            </RouterLink>
+            <Nav.Link as={RouterLink} to="/admin/dashboard" active={location.pathname === '/admin/dashboard'}>
+              Dashboard
+            </Nav.Link>
+
+            {/* Dropdown Departemen menggunakan react-bootstrap */}
+            <NavDropdown title="Departemen" id="departemen-nav-dropdown" active={isActive('/admin/departemen')}>
+              <NavDropdown.Item as={RouterLink} to="/admin/departemen/kelola">
+                Kelola Departemen
+              </NavDropdown.Item>
+              <NavDropdown.Item as={RouterLink} to="/admin/departemen/daftar">
+                Daftar Departemen
+              </NavDropdown.Item>
+            </NavDropdown>
+
+            {/* Placeholder Dropdown Perizinan */}
+            <NavDropdown title="Perizinan" id="perizinan-nav-dropdown" active={isActive('/admin/perizinan')} disabled>
+              <NavDropdown.Item as={RouterLink} to="/admin/perizinan/cuti">
+                Cuti
+              </NavDropdown.Item>
+              <NavDropdown.Item as={RouterLink} to="/admin/perizinan/sakit">
+                Sakit
+              </NavDropdown.Item>
+            </NavDropdown>
           </>
         ) : (
           // Menu untuk Pegawai
-          <RouterLink to="/dashboard" className={`nav-link ${isActive('/dashboard') ? 'active' : ''}`}>
+          <Nav.Link as={RouterLink} to="/dashboard" active={location.pathname === '/dashboard'}>
             Dashboard
-          </RouterLink>
+          </Nav.Link>
         )}
         <button onClick={handleLogout} className="nav-link logout-button">
           Logout
         </button>
-      </nav>
+      </Nav>
     </div>
   );
 };

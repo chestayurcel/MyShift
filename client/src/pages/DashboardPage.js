@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import presensiService from '../services/presensiService';
-import Layout from '../components/Layout'; // Import Layout
+import Layout from '../components/Layout';
 import { jwtDecode } from 'jwt-decode';
 
 const DashboardPage = () => {
@@ -8,16 +8,14 @@ const DashboardPage = () => {
   const [message, setMessage] = useState('');
   const [namaUser, setNamaUser] = useState('');
 
-  // FUNGSI UNTUK MENGAMBIL RIWAYAT
-  const fetchRiwayat = async () => {
+  const fetchRiwayat = useCallback(async () => {
     try {
       const response = await presensiService.getRiwayat();
       setRiwayat(response.data);
     } catch (error) {
       console.error('Gagal mengambil riwayat:', error);
-      // Jika token error, error akan dihandle di Layout/Sidebar
     }
-  };
+  }, []);
 
   useEffect(() => {
     const token = localStorage.getItem('userToken');
@@ -30,25 +28,23 @@ const DashboardPage = () => {
       }
     }
     fetchRiwayat();
-  }, []);
+  }, [fetchRiwayat]);
 
-  // FUNGSI UNTUK CLOCK IN
   const handleClockIn = async () => {
     try {
       const response = await presensiService.clockIn();
       setMessage(response.data.message);
-      fetchRiwayat(); // Refresh data riwayat setelah clock in
+      fetchRiwayat();
     } catch (error) {
       setMessage(error.response?.data?.message || 'Gagal melakukan clock-in');
     }
   };
 
-  // FUNGSI UNTUK CLOCK OUT
   const handleClockOut = async () => {
     try {
       const response = await presensiService.clockOut();
       setMessage(response.data.message);
-      fetchRiwayat(); // Refresh data riwayat setelah clock out
+      fetchRiwayat();
     } catch (error) {
       setMessage(error.response?.data?.message || 'Gagal melakukan clock-out');
     }
@@ -86,7 +82,7 @@ const DashboardPage = () => {
               {riwayat.length > 0 ? (
                 riwayat.map((item, index) => (
                   <tr key={index}>
-                    <td>{new Date(item.tanggal).toLocaleDateDateString('id-ID')}</td>
+                    <td>{new Date(item.tanggal).toLocaleDateString('id-ID')}</td>
                     <td>{item.jam_masuk}</td>
                     <td>{item.jam_keluar || '-'}</td>
                     <td>{item.status}</td>

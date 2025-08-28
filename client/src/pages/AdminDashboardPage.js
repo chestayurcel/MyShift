@@ -1,63 +1,38 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import adminService from '../services/adminService';
-import Layout from '../components/Layout'; // Import komponen Layout
+import Layout from '../components/Layout';
+import { jwtDecode } from 'jwt-decode';
 
 const AdminDashboardPage = () => {
-  const [semuaRiwayat, setSemuaRiwayat] = useState([]);
-  const navigate = useNavigate();
+  const [adminName, setAdminName] = useState('');
 
   useEffect(() => {
-    const fetchSemuaRiwayat = async () => {
+    // Mengambil nama admin dari token untuk pesan yang lebih personal
+    const token = localStorage.getItem('userToken');
+    if (token) {
       try {
-        const response = await adminService.getAllPresensi();
-        setSemuaRiwayat(response.data);
+        const user = jwtDecode(token);
+        setAdminName(user.nama || 'Admin');
       } catch (error) {
-        console.error('Gagal mengambil data presensi:', error);
-        // Jika token tidak valid atau akses ditolak, arahkan ke login
-        if (error.response && (error.response.status === 401 || error.response.status === 403)) {
-          // Hapus token lama jika ada sebelum redirect
-          localStorage.removeItem('userToken');
-          navigate('/login');
-        }
+        console.error("Token tidak valid:", error);
+        setAdminName('Admin');
       }
-    };
-    fetchSemuaRiwayat();
-  }, [navigate]);
+    }
+  }, []);
 
   return (
-    <Layout> {/* Gunakan Layout sebagai pembungkus utama */}
-      <h1 className="mb-4">Riwayat Presensi Semua Pegawai</h1>
-      
-      <div className="table-responsive">
-        <table className="table table-striped table-bordered table-hover">
-          <thead className="table-dark">
-            <tr>
-              <th>Nama Pegawai</th>
-              <th>Tanggal</th>
-              <th>Jam Masuk</th>
-              <th>Jam Keluar</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {semuaRiwayat.length > 0 ? (
-              semuaRiwayat.map((item) => (
-                <tr key={item.id}>
-                  <td>{item.nama_lengkap}</td>
-                  <td>{new Date(item.tanggal).toLocaleDateString('id-ID')}</td>
-                  <td>{item.jam_masuk}</td>
-                  <td>{item.jam_keluar || '-'}</td>
-                  <td>{item.status}</td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="5" className="text-center">Belum ada data presensi.</td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+    <Layout>
+      <div className="card shadow-sm p-4">
+        <h1 className="mb-3">Selamat Datang, {adminName}!</h1>
+        <div className="alert alert-success" role="alert">
+          <h4 className="alert-heading">Selamat Bekerja!</h4>
+          <p>
+            Anda dapat mengelola departemen dan pegawai melalui menu di sidebar.
+          </p>
+          <hr />
+          <p className="mb-0">
+            Semangat!
+          </p>
+        </div>
       </div>
     </Layout>
   );

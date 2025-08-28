@@ -1,12 +1,9 @@
 /* client/src/components/Sidebar.css */
 .sidebar {
   width: 250px;
-  background-color: #212529; /* Warna gelap seperti contoh */
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  height: 100vh; /* Tinggi penuh */
-  position: fixed; /* Tetap di tempat saat scroll */
+  background-color: #212529 !important; /* !important untuk menimpa style bootstrap */
+  height: 100vh;
+  position: fixed;
   top: 0;
   left: 0;
 }
@@ -16,40 +13,55 @@
   text-align: center;
   font-weight: bold;
   font-size: 1.5rem;
+  color: #fff;
   border-bottom: 1px solid #495057;
 }
 
 .sidebar-nav {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1; /* Memenuhi sisa ruang */
   padding-top: 1rem;
+  flex-grow: 1; /* Mendorong logout ke bawah */
 }
 
-.nav-link {
+/* Style untuk semua link di sidebar */
+.sidebar .nav-link, .sidebar .dropdown-toggle {
+  color: #adb5bd !important;
   padding: 0.75rem 1rem;
-  color: #adb5bd;
-  text-decoration: none;
-  display: block;
-  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 }
 
-.nav-link:hover {
+.sidebar .nav-link:hover, .sidebar .dropdown-toggle:hover {
+  color: #fff !important;
   background-color: #343a40;
-  color: #fff;
 }
 
-.nav-link.active {
-  background-color: #0d6efd; /* Warna biru untuk link aktif */
-  color: #fff;
+/* Style untuk link yang sedang aktif */
+.sidebar .nav-link.active, .sidebar .dropdown-toggle.active {
+  color: #fff !important;
+  background-color: #0d6efd;
   font-weight: bold;
 }
 
+/* Style untuk item di dalam dropdown */
+.sidebar .dropdown-menu {
+  background-color: #343a40 !important;
+  border: none;
+}
+
+.sidebar .dropdown-item {
+  color: #adb5bd !important;
+  padding: 0.5rem 1rem 0.5rem 2rem; /* Indentasi */
+}
+
+.sidebar .dropdown-item:hover {
+  color: #fff !important;
+  background-color: #495057;
+}
+
+/* Tombol Logout */
 .logout-button {
   background: none;
   border: none;
   text-align: left;
   width: 100%;
-  margin-top: auto; /* Mendorong tombol ke bawah */
+  margin-top: auto;
   border-top: 1px solid #495057;
 }
