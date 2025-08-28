@@ -2,25 +2,41 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:5000/api/admin/';
 
-// Fungsi untuk mendapatkan token dari localStorage
+// Fungsi bantuan untuk mendapatkan token dari localStorage
 const getToken = () => {
   return localStorage.getItem('userToken');
 };
 
-// Fungsi untuk membuat header Authorization
+// Fungsi bantuan untuk membuat header Authorization
 const getAuthHeader = () => {
   return { headers: { Authorization: `Bearer ${getToken()}` } };
 };
 
+// Mengambil semua data riwayat presensi
 const getAllPresensi = () => {
   return axios.get(API_URL + 'presensi/semua', getAuthHeader());
 };
+
+// Mengambil semua data pegawai
 const getAllPegawai = () => {
   return axios.get(API_URL + 'pegawai', getAuthHeader());
 };
+
+// Menghapus data pegawai berdasarkan ID
+const deletePegawai = (id) => {
+  return axios.delete(API_URL + 'pegawai/' + id, getAuthHeader());
+};
+
+// Membuat data pegawai baru
+const createPegawai = (data) => {
+  return axios.post(API_URL + 'pegawai', data, getAuthHeader());
+};
+
 const adminService = {
   getAllPresensi,
   getAllPegawai,
+  deletePegawai,
+  createPegawai,
 };
 
 export default adminService;

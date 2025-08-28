@@ -1,13 +1,13 @@
-// src/App.js
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 // Impor semua halaman dari filenya masing-masing
-import HomePage from './pages/HomePage'; // <-- IMPORT BARU
+import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
 import DaftarPegawaiPage from './pages/DaftarPegawaiPage';
+import PegawaiCreatePage from './pages/PegawaiCreatePage'; // Halaman baru
 
 // Impor komponen
 import ProtectedRoute from './components/ProtectedRoute';
@@ -18,11 +18,12 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
-          {/* HAPUS FUNGSI HOMEPAGE DARI SINI, GUNAKAN KOMPONEN HASIL IMPORT */}
+          {/* Rute Publik */}
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           
+          {/* Rute Terproteksi untuk Pegawai */}
           <Route 
             path="/dashboard" 
             element={
@@ -32,6 +33,7 @@ function App() {
             } 
           />
           
+          {/* Rute Terproteksi untuk Admin */}
           <Route
             path="/admin/dashboard"
             element={
@@ -45,6 +47,14 @@ function App() {
             element={
               <AdminRoute>
                 <DaftarPegawaiPage />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="/admin/pegawai/tambah"
+            element={
+              <AdminRoute>
+                <PegawaiCreatePage />
               </AdminRoute>
             }
           />
