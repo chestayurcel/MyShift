@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { jwtDecode } from 'jwt-decode'; 
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import authService from '../services/authService';
-import styles from './Auth.module.css';
+import { jwtDecode } from 'jwt-decode';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -11,24 +10,23 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
-  e.preventDefault();
-  setMessage('');
+    e.preventDefault();
+    setMessage('');
 
     try {
-    const response = await authService.login(email, password);
-    if (response.data.token) {
-      const token = response.data.token;
-      localStorage.setItem('userToken', token);
+      const response = await authService.login(email, password);
+      if (response.data.token) {
+        const token = response.data.token;
+        localStorage.setItem('userToken', token);
 
-      const user = jwtDecode(token);
-      
-       if (user.role === 'admin') {
-        navigate('/admin/dashboard');
-      } else {
-        navigate('/dashboard');
+        const user = jwtDecode(token);
+
+        if (user.role === 'admin') {
+          navigate('/admin/dashboard');
+        } else {
+          navigate('/dashboard');
+        }
       }
-    }
-    
     } catch (error) {
       const resMessage =
         (error.response &&
@@ -41,23 +39,43 @@ const LoginPage = () => {
   };
 
   return (
-    <div className={styles.formContainer}> {/* <-- 2. Terapkan class */}
-      <h1>Login MyShift</h1>
-      <form onSubmit={handleLogin}>
-        <div className={styles.formGroup}> {/* <-- Terapkan class */}
-          <label htmlFor="email">Email</label>
-          <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-        </div>
-        <div className={styles.formGroup}>
-          <label htmlFor="password">Password</label>
-          <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-        </div>
-        <button type="submit" className={styles.button}>Login</button> {/* <-- Terapkan class */}
-      </form>
-      {message && <div className={styles.errorMessage}>{message}</div>}
-      <p style={{ textAlign: 'center', marginTop: '15px' }}>
-        Belum punya akun? <Link to="/register">Daftar di sini</Link>
-      </p>
+    <div className="container mt-5"> {/* Bootstrap container dan margin-top */}
+      <div className="card shadow-lg p-4 mx-auto" style={{ maxWidth: '400px' }}> {/* Bootstrap card */}
+        <h1 className="text-center mb-4">Login MyShift</h1>
+        <form onSubmit={handleLogin}>
+          <div className="mb-3"> {/* Bootstrap margin-bottom */}
+            <label htmlFor="email" className="form-label">Email</label> {/* Bootstrap form-label */}
+            <input
+              type="email"
+              id="email"
+              className="form-control" // Bootstrap form-control
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="password" className="form-label">Password</label>
+            <input
+              type="password"
+              id="password"
+              className="form-control"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <button type="submit" className="btn btn-primary w-100 mt-3">Login</button> {/* Bootstrap button */}
+        </form>
+        {message && (
+          <div className="alert alert-danger mt-3" role="alert"> {/* Bootstrap alert */}
+            {message}
+          </div>
+        )}
+        <p className="text-center mt-3">
+          Belum punya akun? <RouterLink to="/register">Daftar di sini</RouterLink>
+        </p>
+      </div>
     </div>
   );
 };

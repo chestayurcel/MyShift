@@ -1,0 +1,55 @@
+/* client/src/components/Sidebar.css */
+.sidebar {
+  width: 250px;
+  background-color: #212529; /* Warna gelap seperti contoh */
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Tinggi penuh */
+  position: fixed; /* Tetap di tempat saat scroll */
+  top: 0;
+  left: 0;
+}
+
+.sidebar-brand {
+  padding: 1.5rem 1rem;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.5rem;
+  border-bottom: 1px solid #495057;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* Memenuhi sisa ruang */
+  padding-top: 1rem;
+}
+
+.nav-link {
+  padding: 0.75rem 1rem;
+  color: #adb5bd;
+  text-decoration: none;
+  display: block;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.nav-link:hover {
+  background-color: #343a40;
+  color: #fff;
+}
+
+.nav-link.active {
+  background-color: #0d6efd; /* Warna biru untuk link aktif */
+  color: #fff;
+  font-weight: bold;
+}
+
+.logout-button {
+  background: none;
+  border: none;
+  text-align: left;
+  width: 100%;
+  margin-top: auto; /* Mendorong tombol ke bawah */
+  border-top: 1px solid #495057;
+}
