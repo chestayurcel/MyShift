@@ -12,12 +12,12 @@ const getAuthHeader = () => {
   return { headers: { Authorization: `Bearer ${getToken()}` } };
 };
 
-// Mengambil semua departemen (memerlukan login admin)
+// Mengambil semua departemen (untuk admin)
 const getAll = () => {
   return axios.get(API_URL, getAuthHeader());
 };
 
-// Mengambil semua departemen (tidak memerlukan login)
+// Mengambil semua departemen (untuk publik/registrasi)
 const getPublicAll = () => {
   return axios.get(API_URL + 'public');
 };
@@ -37,20 +37,26 @@ const remove = (id) => {
   return axios.delete(API_URL + id, getAuthHeader());
 };
 
-// Mengambil detail satu departemen
-const getById = (id) => {
-  return axios.get(API_URL + id + '/details', getAuthHeader());
+// ======================================================================
+// FUNGSI-FUNGSI BARU UNTUK HALAMAN DETAIL
+// ======================================================================
+
+// Mengambil detail satu departemen berdasarkan ID
+const getDetails = (id) => {
+  // PERBAIKAN DI SINI: Menggunakan rute 'details/:id'
+  return axios.get(API_URL + 'details/' + id, getAuthHeader());
 };
 
-// Mengambil pegawai dalam satu departemen
-const getPegawaiByDepartemen = (id) => {
+// Mengambil daftar pegawai dalam satu departemen
+const getPegawaiInDepartemen = (id) => {
   return axios.get(API_URL + id + '/pegawai', getAuthHeader());
 };
 
-// Mengambil presensi dalam satu departemen
-const getPresensiByDepartemen = (id) => {
+// Mengambil riwayat presensi dalam satu departemen
+const getPresensiInDepartemen = (id) => {
   return axios.get(API_URL + id + '/presensi', getAuthHeader());
 };
+
 
 const departemenService = {
   getAll,
@@ -58,9 +64,9 @@ const departemenService = {
   create,
   update,
   remove,
-  getById,
-  getPegawaiByDepartemen,
-  getPresensiByDepartemen,
+  getDetails,
+  getPegawaiInDepartemen,
+  getPresensiInDepartemen,
 };
 
 export default departemenService;

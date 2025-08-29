@@ -12,19 +12,14 @@ const getAuthHeader = () => {
   return { headers: { Authorization: `Bearer ${getToken()}` } };
 };
 
-// Mengambil semua data riwayat presensi
-const getAllPresensi = () => {
-  return axios.get(API_URL + 'presensi/semua', getAuthHeader());
-};
-
 // Mengambil semua data pegawai
 const getAllPegawai = () => {
   return axios.get(API_URL + 'pegawai', getAuthHeader());
 };
 
-// Menghapus data pegawai berdasarkan ID
-const deletePegawai = (id) => {
-  return axios.delete(API_URL + 'pegawai/' + id, getAuthHeader());
+// Mengambil data satu pegawai berdasarkan ID
+const getById = (id) => {
+  return axios.get(API_URL + 'pegawai/' + id, getAuthHeader());
 };
 
 // Membuat data pegawai baru
@@ -32,11 +27,23 @@ const createPegawai = (data) => {
   return axios.post(API_URL + 'pegawai', data, getAuthHeader());
 };
 
+// Mengupdate data pegawai berdasarkan ID
+const update = (id, data) => {
+  return axios.put(API_URL + 'pegawai/' + id, data, getAuthHeader());
+};
+
+// Menghapus data pegawai berdasarkan ID
+const deletePegawai = (id) => {
+  return axios.delete(API_URL + 'pegawai/' + id, getAuthHeader());
+};
+
+
 const adminService = {
-  getAllPresensi,
   getAllPegawai,
-  deletePegawai,
+  getById,
   createPegawai,
+  update,
+  deletePegawai,
 };
 
 export default adminService;

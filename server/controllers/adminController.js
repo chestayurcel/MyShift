@@ -46,23 +46,18 @@ const getAllPegawai = async (req, res) => {
 // @access  Private/Admin
 const createPegawai = async (req, res) => {
   const { nama_lengkap, email, password, role, departemen_id } = req.body;
-
   if (!nama_lengkap || !email || !password || !role) {
     return res.status(400).json({ message: 'Harap isi semua field' });
   }
-
   try {
     const [existing] = await db.query('SELECT email FROM pegawai WHERE email = ?', [email]);
     if (existing.length > 0) {
       return res.status(400).json({ message: 'Email sudah terdaftar' });
     }
-
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
-
     const query = 'INSERT INTO pegawai (nama_lengkap, email, password, role, departemen_id) VALUES (?, ?, ?, ?, ?)';
     await db.query(query, [nama_lengkap, email, hashedPassword, role, departemen_id || null]);
-
     res.status(201).json({ message: 'Pegawai baru berhasil dibuat' });
   } catch (error) {
     console.error(error);
@@ -76,11 +71,9 @@ const createPegawai = async (req, res) => {
 const updatePegawai = async (req, res) => {
   const { id } = req.params;
   const { nama_lengkap, email, role } = req.body;
-
   if (!nama_lengkap || !email || !role) {
     return res.status(400).json({ message: 'Nama, email, dan role harus diisi' });
   }
-
   try {
     const query = 'UPDATE pegawai SET nama_lengkap = ?, email = ?, role = ? WHERE id = ?';
     await db.query(query, [nama_lengkap, email, role, id]);
@@ -96,7 +89,6 @@ const updatePegawai = async (req, res) => {
 // @access  Private/Admin
 const deletePegawai = async (req, res) => {
   const { id } = req.params;
-
   try {
     await db.query('DELETE FROM pegawai WHERE id = ?', [id]);
     res.status(200).json({ message: 'Pegawai berhasil dihapus' });
@@ -106,10 +98,27 @@ const deletePegawai = async (req, res) => {
   }
 };
 
+// @desc    Admin mendapatkan data satu pegawai
+// @route   GET /api/admin/pegawai/:id
+// @access  Private/Admin
+const getPegawaiById = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const [pegawai] = await db.query('SELECT id, nama_lengkap, email, role, departemen_id FROM pegawai WHERE id = ?', [id]);
+        if (pegawai.length === 0) {
+            return res.status(404).json({ message: 'Pegawai tidak ditemukan' });
+        }
+        res.status(200).json(pegawai[0]);
+    } catch (error) {
+        res.status(500).json({ message: 'Terjadi kesalahan pada server' });
+    }
+};
+
 module.exports = {
   getAllPresensi,
   getAllPegawai,
   createPegawai,
   updatePegawai,
   deletePegawai,
+  getPegawaiById,
 };

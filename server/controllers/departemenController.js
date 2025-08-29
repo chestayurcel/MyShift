@@ -19,8 +19,8 @@ const createDepartemen = async (req, res) => {
 };
 
 // @desc    Mendapatkan semua departemen
-// @route   GET /api/departemen
-// @access  Private/Admin
+// @route   GET /api/departemen atau GET /api/departemen/public
+// @access  Private/Admin atau Public
 const getAllDepartemen = async (req, res) => {
   try {
     const [departemen] = await db.query('SELECT * FROM departemen ORDER BY nama_departemen ASC');
@@ -65,17 +65,18 @@ const deleteDepartemen = async (req, res) => {
 };
 
 // @desc    Mendapatkan detail satu departemen
-// @route   GET /api/departemen/:id/details
+// @route   GET /api/departemen/details/:id
 // @access  Private/Admin
 const getDepartemenById = async (req, res) => {
+  const { id } = req.params;
   try {
-    const { id } = req.params;
     const [rows] = await db.query('SELECT * FROM departemen WHERE id = ?', [id]);
     if (rows.length === 0) {
       return res.status(404).json({ message: 'Departemen tidak ditemukan' });
     }
     res.status(200).json(rows[0]);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: 'Terjadi kesalahan pada server' });
   }
 };
@@ -84,12 +85,13 @@ const getDepartemenById = async (req, res) => {
 // @route   GET /api/departemen/:id/pegawai
 // @access  Private/Admin
 const getPegawaiByDepartemen = async (req, res) => {
+  const { id } = req.params;
   try {
-    const { id } = req.params;
     const query = 'SELECT id, nama_lengkap, email, role FROM pegawai WHERE departemen_id = ?';
     const [pegawai] = await db.query(query, [id]);
     res.status(200).json(pegawai);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: 'Terjadi kesalahan pada server' });
   }
 };
@@ -98,8 +100,8 @@ const getPegawaiByDepartemen = async (req, res) => {
 // @route   GET /api/departemen/:id/presensi
 // @access  Private/Admin
 const getPresensiByDepartemen = async (req, res) => {
+  const { id } = req.params;
   try {
-    const { id } = req.params;
     const query = `
       SELECT pg.nama_lengkap, p.tanggal, p.jam_masuk, p.jam_keluar, p.status
       FROM presensi p
@@ -110,6 +112,7 @@ const getPresensiByDepartemen = async (req, res) => {
     const [presensi] = await db.query(query, [id]);
     res.status(200).json(presensi);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: 'Terjadi kesalahan pada server' });
   }
 };
