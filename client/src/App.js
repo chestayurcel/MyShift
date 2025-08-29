@@ -5,6 +5,7 @@ import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
+import AjukanIzinPage from './pages/AjukanIzinPage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
 import KelolaDepartemenPage from './pages/KelolaDepartemenPage';
 import DaftarDepartemenPage from './pages/DaftarDepartemenPage';
@@ -13,6 +14,7 @@ import PegawaiByDepartemenPage from './pages/PegawaiByDepartemenPage';
 import PresensiByDepartemenPage from './pages/PresensiByDepartemenPage';
 import PegawaiCreatePage from './pages/PegawaiCreatePage';
 import PegawaiEditPage from './pages/PegawaiEditPage';
+import KelolaPerizinanPage from './pages/KelolaPerizinanPage';
 
 // Impor komponen
 import ProtectedRoute from './components/ProtectedRoute';
@@ -33,20 +35,21 @@ function App() {
             path="/dashboard" 
             element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} 
           />
+          <Route 
+            path="/ajukan-izin"
+            element={<ProtectedRoute><AjukanIzinPage /></ProtectedRoute>} 
+          />
           
           {/* Rute Admin */}
           <Route path="/admin/dashboard" element={<AdminRoute><AdminDashboardPage /></AdminRoute>} />
           <Route path="/admin/departemen/kelola" element={<AdminRoute><KelolaDepartemenPage /></AdminRoute>} />
           <Route path="/admin/departemen/daftar" element={<AdminRoute><DaftarDepartemenPage /></AdminRoute>} />
-          
-          {/* Rute Detail Departemen yang Baru */}
           <Route path="/admin/departemen/:id" element={<AdminRoute><DepartemenDetailPage /></AdminRoute>} />
           <Route path="/admin/departemen/:id/pegawai" element={<AdminRoute><PegawaiByDepartemenPage /></AdminRoute>} />
           <Route path="/admin/departemen/:id/presensi" element={<AdminRoute><PresensiByDepartemenPage /></AdminRoute>} />
-
-          {/* Rute CRUD Pegawai */}
           <Route path="/admin/pegawai/tambah" element={<AdminRoute><PegawaiCreatePage /></AdminRoute>} />
           <Route path="/admin/pegawai/edit/:id" element={<AdminRoute><PegawaiEditPage /></AdminRoute>} />
+          <Route path="/admin/perizinan" element={<AdminRoute><KelolaPerizinanPage /></AdminRoute>} />
         </Routes>
       </div>
     </Router>

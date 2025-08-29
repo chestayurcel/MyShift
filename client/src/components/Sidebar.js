@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
-import { Nav, NavDropdown } from 'react-bootstrap'; // Import dari react-bootstrap
+import { Nav, NavDropdown } from 'react-bootstrap';
 import './Sidebar.css';
 import { jwtDecode } from 'jwt-decode';
 
@@ -22,7 +22,6 @@ const Sidebar = ({ handleLogout }) => {
               Dashboard
             </Nav.Link>
 
-            {/* Dropdown Departemen menggunakan react-bootstrap */}
             <NavDropdown title="Departemen" id="departemen-nav-dropdown" active={isActive('/admin/departemen')}>
               <NavDropdown.Item as={RouterLink} to="/admin/departemen/kelola">
                 Kelola Departemen
@@ -32,21 +31,23 @@ const Sidebar = ({ handleLogout }) => {
               </NavDropdown.Item>
             </NavDropdown>
 
-            {/* Placeholder Dropdown Perizinan */}
-            <NavDropdown title="Perizinan" id="perizinan-nav-dropdown" active={isActive('/admin/perizinan')} disabled>
-              <NavDropdown.Item as={RouterLink} to="/admin/perizinan/cuti">
-                Cuti
-              </NavDropdown.Item>
-              <NavDropdown.Item as={RouterLink} to="/admin/perizinan/sakit">
-                Sakit
+            {/* Dropdown Perizinan yang Sudah Diperbaiki */}
+            <NavDropdown title="Perizinan" id="perizinan-nav-dropdown" active={isActive('/admin/perizinan')}>
+              <NavDropdown.Item as={RouterLink} to="/admin/perizinan">
+                Semua Pengajuan
               </NavDropdown.Item>
             </NavDropdown>
           </>
         ) : (
           // Menu untuk Pegawai
-          <Nav.Link as={RouterLink} to="/dashboard" active={location.pathname === '/dashboard'}>
-            Dashboard
-          </Nav.Link>
+          <>
+            <Nav.Link as={RouterLink} to="/dashboard" active={location.pathname === '/dashboard'}>
+              Dashboard
+            </Nav.Link>
+            <Nav.Link as={RouterLink} to="/ajukan-izin" active={location.pathname === '/ajukan-izin'}>
+              Ajukan Izin
+            </Nav.Link>
+          </>
         )}
         <button onClick={handleLogout} className="nav-link logout-button">
           Logout
