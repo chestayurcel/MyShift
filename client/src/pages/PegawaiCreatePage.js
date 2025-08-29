@@ -1,28 +1,48 @@
-import React, { useState } from 'react';
-import { useNavigate, Link as RouterLink } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, Link as RouterLink, useSearchParams } from 'react-router-dom';
 import adminService from '../services/adminService';
 import Layout from '../components/Layout';
+import departemenService from '../services/departemenService'; 
 
 const PegawaiCreatePage = () => {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  
   const [nama_lengkap, setNamaLengkap] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('pegawai'); // Default role
+  const [role, setRole] = useState('pegawai');
+  const [departemenId, setDepartemenId] = useState('');
+  const [semuaDepartemen, setSemuaDepartemen] = useState([]);
   const [message, setMessage] = useState('');
-  const navigate = useNavigate();
+
+  useEffect(() => {
+    const deptIdFromUrl = searchParams.get('departemenId');
+    if (deptIdFromUrl) {
+      setDepartemenId(deptIdFromUrl);
+    }
+
+    departemenService.getAll().then(res => {
+      setSemuaDepartemen(res.data);
+    });
+  }, [searchParams]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage('');
+    const data = { 
+      nama_lengkap, 
+      email, 
+      password, 
+      role, 
+      departemen_id: departemenId 
+    };
     try {
-      await adminService.createPegawai({ nama_lengkap, email, password, role });
+      await adminService.createPegawai(data);
       alert('Pegawai baru berhasil ditambahkan!');
-      navigate('/admin/pegawai'); // Kembali ke daftar pegawai
+      navigate(departemenId ? `/admin/departemen/${departemenId}` : '/admin/pegawai');
     } catch (error) {
-      const resMessage =
-        (error.response && error.response.data && error.response.data.message) ||
-        error.message ||
-        error.toString();
+      const resMessage = (error.response?.data?.message) || error.message || error.toString();
       setMessage(resMessage);
     }
   };
@@ -78,16 +98,27 @@ const PegawaiCreatePage = () => {
                 <option value="admin">Admin</option>
               </select>
             </div>
+            <div className="mb-3">
+              <label htmlFor="departemen" className="form-label">Departemen</label>
+              <select
+                id="departemen"
+                className="form-select"
+                value={departemenId}
+                onChange={(e) => setDepartemenId(e.target.value)}
+                required
+              >
+                <option value="">Pilih Departemen</option>
+                {semuaDepartemen.map(dept => (
+                  <option key={dept.id} value={dept.id}>{dept.nama_departemen}</option>
+                ))}
+              </select>
+            </div>
             <button type="submit" className="btn btn-primary me-2">Simpan</button>
-            <RouterLink to="/admin/pegawai" className="btn btn-secondary">
+            <RouterLink to={departemenId ? `/admin/departemen/${departemenId}` : '/admin/departemen/daftar'} className="btn btn-secondary">
               Batal
             </RouterLink>
           </form>
-          {message && (
-            <div className="alert alert-danger mt-3" role="alert">
-              {message}
-            </div>
-          )}
+          {message && <div className="alert alert-danger mt-3">{message}</div>}
         </div>
       </div>
     </Layout>

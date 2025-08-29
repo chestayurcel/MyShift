@@ -9,11 +9,12 @@ const login = (email, password) => {
   });
 };
 
-const register = (nama_lengkap, email, password) => {
+const register = (nama_lengkap, email, password, departemen_id) => {
     return axios.post(API_URL + 'register', {
         nama_lengkap,
         email,
         password,
+        departemen_id,
     });
 };
 

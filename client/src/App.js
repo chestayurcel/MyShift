@@ -9,7 +9,8 @@ import AdminDashboardPage from './pages/AdminDashboardPage';
 import DaftarPegawaiPage from './pages/DaftarPegawaiPage';
 import PegawaiCreatePage from './pages/PegawaiCreatePage';
 import KelolaDepartemenPage from './pages/KelolaDepartemenPage';
-import DaftarDepartemenPage from './pages/DaftarDepartemenPage'; // Halaman baru
+import DaftarDepartemenPage from './pages/DaftarDepartemenPage';
+import DepartemenDetailPage from './pages/DepartemenDetailPage';
 
 // Impor komponen
 import ProtectedRoute from './components/ProtectedRoute';
@@ -75,6 +76,10 @@ function App() {
                 <DaftarDepartemenPage />
               </AdminRoute>
             }
+          />
+          <Route
+            path="/admin/departemen/:id"
+            element={<AdminRoute><DepartemenDetailPage /></AdminRoute>}
           />
         </Routes>
       </div>
