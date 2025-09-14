@@ -4,7 +4,7 @@ import perizinanService from '../services/perizinanService';
 
 const KelolaPerizinanPage = () => {
   const [semuaIzin, setSemuaIzin] = useState([]);
-  const [filter, setFilter] = useState('semua'); // State untuk filter status
+  const [filter, setFilter] = useState('semua');
 
   const fetchSemuaIzin = useCallback(() => {
     perizinanService.getAllIzinForAdmin()
@@ -22,7 +22,7 @@ const KelolaPerizinanPage = () => {
       try {
         await perizinanService.updateStatusIzin(id, status);
         alert(`Pengajuan berhasil ${status}.`);
-        fetchSemuaIzin(); // Refresh data
+        fetchSemuaIzin();
       } catch (error) {
         alert('Gagal memperbarui status pengajuan.');
         console.error(error);
@@ -30,7 +30,6 @@ const KelolaPerizinanPage = () => {
     }
   };
 
-  // Logika untuk memfilter data yang ditampilkan
   const filteredIzin = semuaIzin.filter(item => {
     if (filter === 'semua') return true;
     return item.status === filter;
@@ -40,7 +39,6 @@ const KelolaPerizinanPage = () => {
     <Layout>
       <h1 className="mb-4">Kelola Pengajuan Perizinan</h1>
 
-      {/* Tombol Filter */}
       <div className="mb-3">
         <button className={`btn btn-sm me-2 ${filter === 'semua' ? 'btn-primary' : 'btn-outline-primary'}`} onClick={() => setFilter('semua')}>Semua</button>
         <button className={`btn btn-sm me-2 ${filter === 'menunggu' ? 'btn-warning' : 'btn-outline-warning'}`} onClick={() => setFilter('menunggu')}>Menunggu</button>
@@ -55,6 +53,7 @@ const KelolaPerizinanPage = () => {
               <thead className="table-dark">
                 <tr>
                   <th>Nama Pegawai</th>
+                  <th>Departemen</th> {/* <-- KOLOM BARU */}
                   <th>Jenis Izin</th>
                   <th>Tanggal</th>
                   <th>Keterangan</th>
@@ -67,6 +66,7 @@ const KelolaPerizinanPage = () => {
                   filteredIzin.map(item => (
                     <tr key={item.id}>
                       <td>{item.nama_lengkap}</td>
+                      <td>{item.nama_departemen || 'N/A'}</td>
                       <td>{item.jenis_izin}</td>
                       <td>{`${new Date(item.tanggal_mulai).toLocaleDateString('id-ID')} - ${new Date(item.tanggal_selesai).toLocaleDateString('id-ID')}`}</td>
                       <td>{item.keterangan}</td>
@@ -89,7 +89,7 @@ const KelolaPerizinanPage = () => {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="6" className="text-center">Tidak ada data pengajuan.</td>
+                    <td colSpan="7" className="text-center">Tidak ada data pengajuan.</td>
                   </tr>
                 )}
               </tbody>
