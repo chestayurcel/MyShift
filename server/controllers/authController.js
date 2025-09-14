@@ -1,6 +1,7 @@
 const db = require('../config/db');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const logger = require('../config/logger');
 
 // @desc    Mendaftarkan user baru dari halaman publik
 // @route   POST /api/auth/register
@@ -27,10 +28,13 @@ const registerUser = async (req, res) => {
     const query = 'INSERT INTO pegawai (nama_lengkap, email, password, role, departemen_id) VALUES (?, ?, ?, ?, ?)';
     await db.query(query, [nama_lengkap, email, hashedPassword, 'pegawai', departemen_id]);
 
+    logger.info(`Registrasi berhasil untuk email: ${email}`);
+
     res.status(201).json({
       message: 'Registrasi berhasil!',
     });
   } catch (error) {
+    logger.error(`Error saat registrasi untuk email ${email}: ${error.message}`);
     console.error(error);
     res.status(500).json({ message: 'Terjadi kesalahan pada server' });
   }
@@ -51,6 +55,7 @@ const loginUser = async (req, res) => {
     const user = rows[0];
 
     if (user && (await bcrypt.compare(password, user.password))) {
+      logger.info(`Login berhasil untuk user: ${email}`);
       const token = jwt.sign(
         { 
           id: user.id, 
@@ -67,9 +72,11 @@ const loginUser = async (req, res) => {
         token: token,
       });
     } else {
+      logger.warn(`Percobaan login gagal untuk user: ${email}`);
       res.status(401).json({ message: 'Email atau password salah' });
     }
   } catch (error) {
+    logger.error(`Error saat proses login untuk ${email}: ${error.message}`);
     console.error(error);
     res.status(500).json({ message: 'Terjadi kesalahan pada server' });
   }

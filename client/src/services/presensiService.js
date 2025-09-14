@@ -1,28 +1,27 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/presensi/';
+const API_BASE_URL = `${process.env.REACT_APP_API_URL}/presensi`;
 
-// Fungsi untuk mendapatkan token dari localStorage
 const getToken = () => {
   return localStorage.getItem('userToken');
 };
 
-// Fungsi untuk membuat header Authorization
 const getAuthHeader = () => {
   return { headers: { Authorization: `Bearer ${getToken()}` } };
 };
 
 const clockIn = () => {
-  return axios.post(API_URL + 'clockin', {}, getAuthHeader());
+  return axios.post(`${API_BASE_URL}/clockin`, {}, getAuthHeader());
 };
 
 const clockOut = () => {
-  return axios.post(API_URL + 'clockout', {}, getAuthHeader());
+  return axios.post(`${API_BASE_URL}/clockout`, {}, getAuthHeader());
 };
 
 const getRiwayat = () => {
-  return axios.get(API_URL + 'riwayat', getAuthHeader());
+  return axios.get(`${API_BASE_URL}/riwayat`, getAuthHeader());
 };
+
 
 const presensiService = {
   clockIn,

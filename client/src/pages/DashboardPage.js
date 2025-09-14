@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import presensiService from '../services/presensiService';
 import Layout from '../components/Layout';
 import { jwtDecode } from 'jwt-decode';
+import { formatDate } from '../utils/dateFormatter';
 
 const DashboardPage = () => {
   const [riwayat, setRiwayat] = useState([]);
@@ -82,7 +83,7 @@ const DashboardPage = () => {
               {riwayat.length > 0 ? (
                 riwayat.map((item, index) => (
                   <tr key={index}>
-                    <td>{new Date(item.tanggal).toLocaleDateString('id-ID')}</td>
+                    <td>{formatDate(item.tanggal)}</td>
                     <td>{item.jam_masuk}</td>
                     <td>{item.jam_keluar || '-'}</td>
                     <td>{item.status}</td>
