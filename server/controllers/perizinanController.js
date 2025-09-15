@@ -1,4 +1,5 @@
 const db = require('../config/db');
+const logger = require('../config/logger');
 
 // @desc    Pegawai mengajukan izin baru
 // @route   POST /api/perizinan
@@ -7,14 +8,24 @@ const ajukanIzin = async (req, res) => {
   const pegawai_id = req.user.id;
   const { jenis_izin, tanggal_mulai, tanggal_selesai, keterangan } = req.body;
 
+  // Pastikan file diunggah
+  if (!req.file) {
+    return res.status(400).json({ message: 'File surat izin wajib diunggah' });
+  }
+
+  const file_surat = req.file.filename; // Ambil nama file dari multer
+
   if (!jenis_izin || !tanggal_mulai || !tanggal_selesai || !keterangan) {
     return res.status(400).json({ message: 'Semua field harus diisi' });
   }
   try {
-    const query = 'INSERT INTO perizinan (pegawai_id, jenis_izin, tanggal_mulai, tanggal_selesai, keterangan) VALUES (?, ?, ?, ?, ?)';
-    await db.query(query, [pegawai_id, jenis_izin, tanggal_mulai, tanggal_selesai, keterangan]);
+    const query = 'INSERT INTO perizinan (pegawai_id, jenis_izin, tanggal_mulai, tanggal_selesai, keterangan, file_surat) VALUES (?, ?, ?, ?, ?, ?)';
+    await db.query(query, [pegawai_id, jenis_izin, tanggal_mulai, tanggal_selesai, keterangan, file_surat]);
+    
+    logger.info(`Pengajuan izin baru oleh pegawai ID: ${pegawai_id}`);
     res.status(201).json({ message: 'Pengajuan izin berhasil dikirim' });
   } catch (error) {
+    logger.error(`Error saat ajukanIzin oleh pegawai ID ${pegawai_id}: ${error.message}`);
     console.error(error);
     res.status(500).json({ message: 'Terjadi kesalahan pada server' });
   }
@@ -30,6 +41,7 @@ const getRiwayatIzinPegawai = async (req, res) => {
     const [riwayat] = await db.query(query, [pegawai_id]);
     res.status(200).json(riwayat);
   } catch (error) {
+    logger.error(`Error getRiwayatIzinPegawai untuk ID ${pegawai_id}: ${error.message}`);
     console.error(error);
     res.status(500).json({ message: 'Terjadi kesalahan pada server' });
   }
@@ -40,7 +52,7 @@ const getRiwayatIzinPegawai = async (req, res) => {
 // @access  Private/Admin
 const getAllPerizinanAdmin = async (req, res) => {
   try {
-    // Query ini diubah untuk menggabungkan data dari 3 tabel
+    // Query ini sudah mencakup join dengan tabel departemen
     const query = `
       SELECT 
         p.id, 
@@ -49,6 +61,7 @@ const getAllPerizinanAdmin = async (req, res) => {
         p.tanggal_selesai, 
         p.keterangan, 
         p.status, 
+        p.file_surat,
         pg.nama_lengkap, 
         d.nama_departemen 
       FROM perizinan p
@@ -59,6 +72,7 @@ const getAllPerizinanAdmin = async (req, res) => {
     const [perizinan] = await db.query(query);
     res.status(200).json(perizinan);
   } catch (error) {
+    logger.error(`Error getAllPerizinanAdmin: ${error.message}`);
     console.error(error);
     res.status(500).json({ message: 'Terjadi kesalahan pada server' });
   }
@@ -70,7 +84,7 @@ const getAllPerizinanAdmin = async (req, res) => {
 const updateStatusIzinAdmin = async (req, res) => {
   const { id } = req.params;
   const { status } = req.body;
-  const admin_id = req.user.id; // Mencatat admin yang menyetujui
+  const admin_id = req.user.id;
 
   if (!status || !['diterima', 'ditolak'].includes(status)) {
     return res.status(400).json({ message: 'Status tidak valid' });
@@ -78,8 +92,11 @@ const updateStatusIzinAdmin = async (req, res) => {
   try {
     const query = 'UPDATE perizinan SET status = ?, disetujui_oleh = ? WHERE id = ?';
     await db.query(query, [status, admin_id, id]);
+    
+    logger.info(`Admin ID ${admin_id} mengubah status izin ID ${id} menjadi ${status}`);
     res.status(200).json({ message: 'Status pengajuan berhasil diperbarui' });
   } catch (error) {
+    logger.error(`Error updateStatusIzinAdmin untuk izin ID ${id}: ${error.message}`);
     console.error(error);
     res.status(500).json({ message: 'Terjadi kesalahan pada server' });
   }

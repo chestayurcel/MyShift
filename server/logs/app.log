@@ -29,3 +29,38 @@
 {"level":"info","message":"Login berhasil untuk user: budi.s@example.com","service":"myshift-app","timestamp":"2025-09-14 23:49:34"}
 {"level":"info","message":"Login berhasil untuk user: budi.s@example.com","service":"myshift-app","timestamp":"2025-09-14 23:56:28"}
 {"level":"info","message":"Login berhasil untuk user: linda@gmail.com","service":"myshift-app","timestamp":"2025-09-14 23:57:57"}
+{"level":"info","message":"Login berhasil untuk user: linda@gmail.com","service":"myshift-app","timestamp":"2025-09-15 17:25:42"}
+{"level":"info","message":"Login berhasil untuk user: moraa1234@gmail.com","service":"myshift-app","timestamp":"2025-09-15 17:25:58"}
+{"level":"info","message":"Login berhasil untuk user: linda@gmail.com","service":"myshift-app","timestamp":"2025-09-15 17:26:11"}
+{"level":"info","message":"Login berhasil untuk user: budi.s@example.com","service":"myshift-app","timestamp":"2025-09-15 17:26:31"}
+{"level":"info","message":"Login berhasil untuk user: ucel@gmail.com","service":"myshift-app","timestamp":"2025-09-15 17:26:50"}
+{"level":"info","message":"Login berhasil untuk user: budi.s@example.com","service":"myshift-app","timestamp":"2025-09-15 17:27:32"}
+{"level":"info","message":"Login berhasil untuk user: budi.s@example.com","service":"myshift-app","timestamp":"2025-09-15 17:27:38"}
+{"level":"warn","message":"Percobaan login gagal untuk user: budi.s@example.com","service":"myshift-app","timestamp":"2025-09-15 17:27:52"}
+{"level":"warn","message":"Percobaan login gagal untuk user: budi.s@example.com","service":"myshift-app","timestamp":"2025-09-15 17:27:53"}
+{"level":"warn","message":"Percobaan login gagal untuk user: budi.s@example.com","service":"myshift-app","timestamp":"2025-09-15 17:27:54"}
+{"level":"warn","message":"Percobaan login gagal untuk user: budi.s@example.com","service":"myshift-app","timestamp":"2025-09-15 17:27:54"}
+{"level":"info","message":"Login berhasil untuk user: budi.s@example.com","service":"myshift-app","timestamp":"2025-09-15 17:27:59"}
+{"level":"info","message":"Login berhasil untuk user: budi.s@example.com","service":"myshift-app","timestamp":"2025-09-15 17:28:03"}
+{"level":"info","message":"Login berhasil untuk user: budi.s@example.com","service":"myshift-app","timestamp":"2025-09-15 17:28:03"}
+{"level":"warn","message":"Percobaan login gagal untuk user: budi.s@example.com","service":"myshift-app","timestamp":"2025-09-15 17:29:31"}
+{"level":"warn","message":"Percobaan login gagal untuk user: budi.s@example.com","service":"myshift-app","timestamp":"2025-09-15 17:29:35"}
+{"level":"warn","message":"Percobaan login gagal untuk user: budi.s@example.com","service":"myshift-app","timestamp":"2025-09-15 17:29:36"}
+{"level":"info","message":"Login berhasil untuk user: budi.s@example.com","service":"myshift-app","timestamp":"2025-09-15 17:29:41"}
+{"level":"warn","message":"Percobaan login gagal untuk user: budi.s@example.com","service":"myshift-app","timestamp":"2025-09-15 17:29:45"}
+{"level":"info","message":"Login berhasil untuk user: budi.s@example.com","service":"myshift-app","timestamp":"2025-09-15 17:29:54"}
+{"level":"info","message":"Login berhasil untuk user: budi.s@example.com","service":"myshift-app","timestamp":"2025-09-15 17:30:46"}
+{"level":"info","message":"Login berhasil untuk user: budi.s@example.com","service":"myshift-app","timestamp":"2025-09-15 17:32:12"}
+{"level":"info","message":"Login berhasil untuk user: budi.s@example.com","service":"myshift-app","timestamp":"2025-09-15 18:23:05"}
+{"level":"info","message":"Login berhasil untuk user: budi.s@example.com","service":"myshift-app","timestamp":"2025-09-15 18:23:34"}
+{"level":"info","message":"Login berhasil untuk user: ucel@gmail.com","service":"myshift-app","timestamp":"2025-09-15 19:04:23"}
+{"level":"info","message":"Login berhasil untuk user: ucel@gmail.com","service":"myshift-app","timestamp":"2025-09-15 19:32:27"}
+{"level":"info","message":"Login berhasil untuk user: budi.s@example.com","service":"myshift-app","timestamp":"2025-09-15 19:32:47"}
+{"level":"info","message":"Login berhasil untuk user: ucel@gmail.com","service":"myshift-app","timestamp":"2025-09-15 19:35:54"}
+{"level":"info","message":"Login berhasil untuk user: budi.s@example.com","service":"myshift-app","timestamp":"2025-09-15 19:37:30"}
+{"level":"info","message":"Login berhasil untuk user: ucel@gmail.com","service":"myshift-app","timestamp":"2025-09-15 20:09:00"}
+{"level":"info","message":"Pengajuan izin baru oleh pegawai ID: 11","service":"myshift-app","timestamp":"2025-09-15 20:09:37"}
+{"level":"info","message":"Login berhasil untuk user: budi.s@example.com","service":"myshift-app","timestamp":"2025-09-15 20:09:54"}
+{"level":"info","message":"Login berhasil untuk user: linda@gmail.com","service":"myshift-app","timestamp":"2025-09-15 20:29:09"}
+{"level":"info","message":"Pengajuan izin baru oleh pegawai ID: 12","service":"myshift-app","timestamp":"2025-09-15 20:29:43"}
+{"level":"info","message":"Login berhasil untuk user: budi.s@example.com","service":"myshift-app","timestamp":"2025-09-15 20:29:56"}

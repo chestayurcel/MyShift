@@ -29,7 +29,7 @@ const KelolaPerizinanPage = () => {
       }
     }
   };
-
+  
   const filteredIzin = semuaIzin.filter(item => {
     if (filter === 'semua') return true;
     return item.status === filter;
@@ -38,7 +38,7 @@ const KelolaPerizinanPage = () => {
   return (
     <Layout>
       <h1 className="mb-4">Kelola Pengajuan Perizinan</h1>
-
+      
       <div className="mb-3">
         <button className={`btn btn-sm me-2 ${filter === 'semua' ? 'btn-primary' : 'btn-outline-primary'}`} onClick={() => setFilter('semua')}>Semua</button>
         <button className={`btn btn-sm me-2 ${filter === 'menunggu' ? 'btn-warning' : 'btn-outline-warning'}`} onClick={() => setFilter('menunggu')}>Menunggu</button>
@@ -53,10 +53,11 @@ const KelolaPerizinanPage = () => {
               <thead className="table-dark">
                 <tr>
                   <th>Nama Pegawai</th>
-                  <th>Departemen</th> {/* <-- KOLOM BARU */}
+                  <th>Departemen</th>
                   <th>Jenis Izin</th>
                   <th>Tanggal</th>
                   <th>Keterangan</th>
+                  <th>Surat Izin</th> {/* <-- KOLOM BARU */}
                   <th>Status</th>
                   <th>Aksi</th>
                 </tr>
@@ -70,6 +71,19 @@ const KelolaPerizinanPage = () => {
                       <td>{item.jenis_izin}</td>
                       <td>{`${new Date(item.tanggal_mulai).toLocaleDateString('id-ID')} - ${new Date(item.tanggal_selesai).toLocaleDateString('id-ID')}`}</td>
                       <td>{item.keterangan}</td>
+                      <td>
+                        {/* Tombol Lihat File */}
+                        {item.file_surat ? (
+                          <a 
+                            href={`http://localhost:5000/uploads/${item.file_surat}`} 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            className="btn btn-sm btn-info"
+                          >
+                            Lihat
+                          </a>
+                        ) : 'Tidak Ada'}
+                      </td>
                       <td>
                         <span className={`badge bg-${item.status === 'diterima' ? 'success' : item.status === 'ditolak' ? 'danger' : 'warning'}`}>
                           {item.status}
@@ -89,7 +103,7 @@ const KelolaPerizinanPage = () => {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="7" className="text-center">Tidak ada data pengajuan.</td>
+                    <td colSpan="8" className="text-center">Tidak ada data pengajuan.</td> {/* <-- Ubah colSpan jadi 8 */}
                   </tr>
                 )}
               </tbody>
