@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
+const path = require('path'); // <-- DITAMBAHKAN: Untuk mengelola path file
 
 const authRoutes = require('./routes/authRoutes');
 const presensiRoutes = require('./routes/presensiRoutes');
@@ -15,6 +16,10 @@ app.use(cors());
 app.use(express.json());
 
 
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+
+// Rute-rute API Anda
 app.use('/api/auth', authRoutes);
 app.use('/api/presensi', presensiRoutes);
 app.use('/api/admin', adminRoutes);
